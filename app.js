@@ -10,3 +10,4 @@ ctx.lineTo(150, 150);
 ctx.lineTo(50, 150);
 ctx.lineTo(50, 50);
 ctx.fill();
+// ctx.stroke();
