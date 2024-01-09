@@ -4,16 +4,29 @@ const ctx = canvas.getContext("2d"); // brushes - 캔버스에 그림 그릴 때
 canvas.width = 800;
 canvas.height = 800;
 
-ctx.fillRect(215, 200, 15, 100);
-ctx.fillRect(350, 200, 15, 100);
-ctx.fillRect(260, 200, 60, 200);
+ctx.lineWidth = 2;
 
-ctx.arc(290, 150, 40, 0, 2 * Math.PI);
-// ctx.arc(290, 150, 40, 0, 0.5 * Math.PI);
-ctx.fill();
+const colors = [
+  "#ff3838",
+  "#ffb8b8",
+  "#c56cf0",
+  "#ff9f1a",
+  "#fff200",
+  "#32ff7e",
+  "#7efff5",
+  "#18dcff",
+  "#7d5fff",
+];
 
-ctx.beginPath();
-ctx.fillStyle = "white";
-ctx.arc(275, 140, 7, Math.PI, 2 * Math.PI);
-ctx.arc(305, 140, 7, Math.PI, 2 * Math.PI);
-ctx.fill();
+function onClick(event) {
+  // console.log(event);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  ctx.strokeStyle = color;
+  ctx.lineTo(event.offsetX, event.offsetY);
+  ctx.stroke();
+}
+
+// canvas.addEventListener("click", onClick);
+canvas.addEventListener("mousemove", onClick);
