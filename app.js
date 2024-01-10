@@ -1,3 +1,4 @@
+const modeBtn = document.getElementById("mode-btn");
 const colorOptions = Array.from(
   document.getElementsByClassName("color-option")
 );
@@ -11,6 +12,7 @@ canvas.height = 800;
 
 ctx.lineWidth = lineWidth.value;
 let isPainting = false;
+let isFilling = false;
 
 function onMove(event) {
   if (isPainting) {
@@ -28,46 +30,49 @@ function startPainting(event) {
 
 function cancelPainting(event) {
   isPainting = false;
-  // ctx.beginPath();
 }
 
 function onLineWidthChange(event) {
-  // console.log(event.target.value);
   ctx.lineWidth = event.target.value;
 }
 
 function onColorChange(event) {
-  // console.log(event.target.value);
   ctx.strokeStyle = event.target.value;
   ctx.fillStyle = event.target.value;
 }
 
 function onColorClick(event) {
-  // console.dir(event.target.dataset.color);
   const colorValue = event.target.dataset.color;
   ctx.strokeStyle = colorValue;
   ctx.fillStyle = colorValue;
   color.value = colorValue;
 }
 
+function onModeClick(event) {
+  if (isFilling) {
+    isFilling = false;
+    modeBtn.innerText = "Fill";
+  } else {
+    isFilling = true;
+    modeBtn.innerText = "Draw";
+  }
+}
+
+function onCanvasClick(event) {
+  if (isFilling) {
+    ctx.fillRect(0, 0, 800, 800);
+  }
+}
+
 canvas.addEventListener("mousemove", onMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", cancelPainting);
 canvas.addEventListener("mouseleave", cancelPainting);
-
-// document.addEventListener("mouseup", onMouseUp);
+canvas.addEventListener("click", onCanvasClick);
 
 lineWidth.addEventListener("change", onLineWidthChange);
 color.addEventListener("change", onColorChange);
 
 colorOptions.forEach((color) => color.addEventListener("click", onColorClick));
 
-// function onColorChange(event) {
-//   ctx.strokeStyle = ctx.fillStyle = event.target.value;
-// }
-
-// function onColorClick(event) {
-//   const colorValue = event.target.dataset.color;
-//   ctx.strokeStyle = ctx.fillStyle = event.target.dataset.color;
-//   color.value = colorValue;
-// }
+modeBtn.addEventListener("click", onModeClick);
